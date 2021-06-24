@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.mapper.UmsShopBankInfoMapper">
+  <resultMap id="BaseResultMap" type="com.macro.mall.model.UmsShopBankInfo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="shop_id" jdbcType="BIGINT" property="shopId" />
+    <result column="member_id" jdbcType="BIGINT" property="memberId" />
+    <result column="bank_card_num" jdbcType="VARCHAR" property="bankCardNum" />
+    <result column="deposit_bank" jdbcType="VARCHAR" property="depositBank" />
+    <result column="deposit_net" jdbcType="VARCHAR" property="depositNet" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="account_type" jdbcType="INTEGER" property="accountType" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="idcard_name" jdbcType="VARCHAR" property="idcardName" />
+    <result column="idcard_number" jdbcType="VARCHAR" property="idcardNumber" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, shop_id, member_id, bank_card_num, deposit_bank, deposit_net, phone, account_type, 
+    name, idcard_name, idcard_number, status
+  </sql>
+  <select id="selectByExample" parameterType="com.macro.mall.model.UmsShopBankInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ums_shop_bank_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ums_shop_bank_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from ums_shop_bank_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.macro.mall.model.UmsShopBankInfoExample">
+    delete from ums_shop_bank_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.macro.mall.model.UmsShopBankInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ums_shop_bank_info (shop_id, member_id, bank_card_num, 
+      deposit_bank, deposit_net, phone, 
+      account_type, name, idcard_name, 
+      idcard_number, status)
+    values (#{shopId,jdbcType=BIGINT}, #{memberId,jdbcType=BIGINT}, #{bankCardNum,jdbcType=VARCHAR}, 
+      #{depositBank,jdbcType=VARCHAR}, #{depositNet,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{accountType,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{idcardName,jdbcType=VARCHAR}, 
+      #{idcardNumber,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.macro.mall.model.UmsShopBankInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ums_shop_bank_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="memberId != null">
+        member_id,
+      </if>
+      <if test="bankCardNum != null">
+        bank_card_num,
+      </if>
+      <if test="depositBank != null">
+        deposit_bank,
+      </if>
+      <if test="depositNet != null">
+        deposit_net,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="accountType != null">
+        account_type,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="idcardName != null">
+        idcard_name,
+      </if>
+      <if test="idcardNumber != null">
+        idcard_number,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="shopId != null">
+        #{shopId,jdbcType=BIGINT},
+      </if>
+      <if test="memberId != null">
+        #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="bankCardNum != null">
+        #{bankCardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="depositBank != null">
+        #{depositBank,jdbcType=VARCHAR},
+      </if>
+      <if test="depositNet != null">
+        #{depositNet,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="accountType != null">
+        #{accountType,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardName != null">
+        #{idcardName,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardNumber != null">
+        #{idcardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.macro.mall.model.UmsShopBankInfoExample" resultType="java.lang.Integer">
+    select count(*) from ums_shop_bank_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ums_shop_bank_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.shopId != null">
+        shop_id = #{record.shopId,jdbcType=BIGINT},
+      </if>
+      <if test="record.memberId != null">
+        member_id = #{record.memberId,jdbcType=BIGINT},
+      </if>
+      <if test="record.bankCardNum != null">
+        bank_card_num = #{record.bankCardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.depositBank != null">
+        deposit_bank = #{record.depositBank,jdbcType=VARCHAR},
+      </if>
+      <if test="record.depositNet != null">
+        deposit_net = #{record.depositNet,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountType != null">
+        account_type = #{record.accountType,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcardName != null">
+        idcard_name = #{record.idcardName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcardNumber != null">
+        idcard_number = #{record.idcardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ums_shop_bank_info
+    set id = #{record.id,jdbcType=BIGINT},
+      shop_id = #{record.shopId,jdbcType=BIGINT},
+      member_id = #{record.memberId,jdbcType=BIGINT},
+      bank_card_num = #{record.bankCardNum,jdbcType=VARCHAR},
+      deposit_bank = #{record.depositBank,jdbcType=VARCHAR},
+      deposit_net = #{record.depositNet,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      account_type = #{record.accountType,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      idcard_name = #{record.idcardName,jdbcType=VARCHAR},
+      idcard_number = #{record.idcardNumber,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.UmsShopBankInfo">
+    update ums_shop_bank_info
+    <set>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=BIGINT},
+      </if>
+      <if test="memberId != null">
+        member_id = #{memberId,jdbcType=BIGINT},
+      </if>
+      <if test="bankCardNum != null">
+        bank_card_num = #{bankCardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="depositBank != null">
+        deposit_bank = #{depositBank,jdbcType=VARCHAR},
+      </if>
+      <if test="depositNet != null">
+        deposit_net = #{depositNet,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="accountType != null">
+        account_type = #{accountType,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardName != null">
+        idcard_name = #{idcardName,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardNumber != null">
+        idcard_number = #{idcardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.UmsShopBankInfo">
+    update ums_shop_bank_info
+    set shop_id = #{shopId,jdbcType=BIGINT},
+      member_id = #{memberId,jdbcType=BIGINT},
+      bank_card_num = #{bankCardNum,jdbcType=VARCHAR},
+      deposit_bank = #{depositBank,jdbcType=VARCHAR},
+      deposit_net = #{depositNet,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      account_type = #{accountType,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      idcard_name = #{idcardName,jdbcType=VARCHAR},
+      idcard_number = #{idcardNumber,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

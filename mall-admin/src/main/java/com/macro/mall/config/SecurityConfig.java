@@ -4,8 +4,6 @@ import com.macro.mall.bo.AdminUserDetails;
 import com.macro.mall.component.JwtAuthenticationTokenFilter;
 import com.macro.mall.component.RestAuthenticationEntryPoint;
 import com.macro.mall.component.RestfulAccessDeniedHandler;
-import com.macro.mall.model.UmsAdmin;
-import com.macro.mall.model.UmsPermission;
 import com.macro.mall.service.UmsAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;

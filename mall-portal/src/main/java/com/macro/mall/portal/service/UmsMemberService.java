@@ -45,4 +45,13 @@ public interface UmsMemberService {
      * 根据会员id修改会员积分
      */
     void updateIntegration(Long id,Integer integration);
+
+    /**
+     * 一键登录
+     * @param telephone
+     * @return
+     */
+    CommonResult oneclickLogin(String telephone);
+
+    CommonResult  login(String telephone, String type, String authCode);
 }

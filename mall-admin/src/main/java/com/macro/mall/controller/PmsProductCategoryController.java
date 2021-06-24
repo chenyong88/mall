@@ -3,7 +3,6 @@ package com.macro.mall.controller;
 import com.macro.mall.dto.CommonResult;
 import com.macro.mall.dto.PmsProductCategoryParam;
 import com.macro.mall.dto.PmsProductCategoryWithChildrenItem;
-import com.macro.mall.model.PmsProductCategory;
 import com.macro.mall.service.PmsProductCategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

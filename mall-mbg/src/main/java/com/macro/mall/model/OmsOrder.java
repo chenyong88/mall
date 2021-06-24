@@ -12,9 +12,26 @@ public class OmsOrder implements Serializable {
      */
     private Long id;
 
+    /**
+     * 商家会员id
+     *
+     * @mbggenerated
+     */
     private Long memberId;
 
+    /**
+     * 优惠劵id
+     *
+     * @mbggenerated
+     */
     private Long couponId;
+
+    /**
+     * 店铺id
+     *
+     * @mbggenerated
+     */
+    private Long shopId;
 
     /**
      * 订单编号
@@ -327,6 +344,14 @@ public class OmsOrder implements Serializable {
 
     public void setCouponId(Long couponId) {
         this.couponId = couponId;
+    }
+
+    public Long getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Long shopId) {
+        this.shopId = shopId;
     }
 
     public String getOrderSn() {
@@ -666,6 +691,7 @@ public class OmsOrder implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", memberId=").append(memberId);
         sb.append(", couponId=").append(couponId);
+        sb.append(", shopId=").append(shopId);
         sb.append(", orderSn=").append(orderSn);
         sb.append(", createTime=").append(createTime);
         sb.append(", memberUsername=").append(memberUsername);

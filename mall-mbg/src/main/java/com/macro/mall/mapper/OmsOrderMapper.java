@@ -1,9 +1,11 @@
 package com.macro.mall.mapper;
 
+import com.macro.mall.dto.OrderStatisticsDto;
 import com.macro.mall.model.OmsOrder;
 import com.macro.mall.model.OmsOrderExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface OmsOrderMapper {
     int countByExample(OmsOrderExample example);
@@ -27,4 +29,14 @@ public interface OmsOrderMapper {
     int updateByPrimaryKeySelective(OmsOrder record);
 
     int updateByPrimaryKey(OmsOrder record);
+
+    /**
+     * 查询订单状态统计数据
+     * @param memberId
+     * @param shopId
+     * @return
+     */
+    OrderStatisticsDto selectByMemberIdAndShopIdSumByStatus(@Param("memberId") String memberId,
+                                                            @Param("shopId") String shopId);
+
 }

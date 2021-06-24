@@ -1,7 +1,6 @@
 package com.macro.mall.controller;
 
 import com.macro.mall.dto.CommonResult;
-import com.macro.mall.model.SmsHomeRecommendProduct;
 import com.macro.mall.service.SmsHomeRecommendProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

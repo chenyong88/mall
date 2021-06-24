@@ -4,7 +4,6 @@ import com.macro.mall.dto.CommonResult;
 import com.macro.mall.dto.OmsOrderReturnApplyResult;
 import com.macro.mall.dto.OmsReturnApplyQueryParam;
 import com.macro.mall.dto.OmsUpdateStatusParam;
-import com.macro.mall.model.OmsOrderReturnApply;
 import com.macro.mall.service.OmsOrderReturnApplyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -1,35 +1,57 @@
 package com.macro.mall.portal.config;
 
 import com.macro.mall.model.UmsMember;
-import com.macro.mall.portal.component.*;
-import com.macro.mall.portal.domain.MemberDetails;
+import com.macro.mall.portal.bo.MemberUserDetails;
+import com.macro.mall.portal.component.JwtAuthenticationTokenFilter;
+import com.macro.mall.portal.component.RestAuthenticationEntryPoint;
+import com.macro.mall.portal.component.RestfulAccessDeniedHandler;
 import com.macro.mall.portal.service.UmsMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * SpringSecurity的配置
- * Created by macro on 2018/8/3.
+ * Created by macro on 2018/4/26.
  */
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
+    @Qualifier("umsMemberServiceImpl")
     private UmsMemberService memberService;
+    @Autowired
+    private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
+    @Autowired
+    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.csrf()// 由于使用的是JWT，我们这里不需要csrf
+                .disable()
+                .sessionManagement()// 基于token，所以不需要session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeRequests()
                 .antMatchers(HttpMethod.GET, // 允许对于网站静态资源的无授权访问
                         "/",
                         "/*.html",
@@ -41,45 +63,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/v2/api-docs/**"
                 )
                 .permitAll()
+                .antMatchers("/sso/**","/welcome/**")// 对登录注册要允许匿名访问
+                .permitAll()
                 .antMatchers(HttpMethod.OPTIONS)//跨域请求会先进行一次options请求
                 .permitAll()
-                .antMatchers(
-                        "/sso/*",//登录注册
-                        "/home/**"//首页接口
-                )
-                .permitAll()
-                .antMatchers("/member/**","/returnApply/**")// 测试时开启
+                .antMatchers("/**")//测试时全部运行访问
                 .permitAll()
                 .anyRequest()// 除上面外的所有请求全部需要鉴权认证
-                .authenticated()
-                .and()
-                .exceptionHandling()
-                .accessDeniedHandler(new GoAccessDeniedHandler())
-                .authenticationEntryPoint(new GoAuthenticationEntryPoint())
-                .and()
-                .formLogin()
-                .loginPage("/sso/login")
-                .successHandler(new GoAuthenticationSuccessHandler())
-                .failureHandler(new GoAuthenticationFailureHandler())
-                .and()
-                .logout()
-                .logoutUrl("/sso/logout")
-                .logoutSuccessHandler(new GoLogoutSuccessHandler())
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-//                .and()
-//                .requiresChannel()
-//                .antMatchers("/sso/*")
-//                .requiresSecure()
-//                .anyRequest()
-//                .requiresInsecure()
-//                .and()
-//                .rememberMe()
-//                .tokenValiditySeconds(1800)
-//                .key("token_key")
-                .and()
-                .csrf()
-                .disable();//开启basic认证登录后可以调用需要认证的接口
+                .authenticated();
+        // 禁用缓存
+        httpSecurity.headers().cacheControl();
+        // 添加JWT filter
+        httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        //添加自定义未授权和未登录结果返回
+        httpSecurity.exceptionHandling()
+                .accessDeniedHandler(restfulAccessDeniedHandler)
+                .authenticationEntryPoint(restAuthenticationEntryPoint);
     }
 
     @Override
@@ -90,21 +89,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new Md5PasswordEncoder();
+        return new BCryptPasswordEncoder();
     }
 
+    @Override
     @Bean
     public UserDetailsService userDetailsService() {
         //获取登录用户信息
-        return new UserDetailsService() {
-            @Override
-            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                UmsMember member = memberService.getByUsername(username);
-                if(member!=null){
-                    return new MemberDetails(member);
-                }
-                throw new UsernameNotFoundException("用户名或密码错误");
+        return username -> {
+            UmsMember admin = memberService.getByUsername(username);
+            if (admin != null) {
+                return  new MemberUserDetails(admin,null);
             }
+            throw new UsernameNotFoundException("用户名或密码错误");
         };
     }
+
+    @Bean
+    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter(){
+        return new JwtAuthenticationTokenFilter();
+    }
+
+    @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
 }

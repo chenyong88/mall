@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.portal.dao.UmsShopCertificatesInfoMapper">
+  <resultMap id="BaseResultMap" type="com.macro.mall.portal.model.UmsShopCertificatesInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="shop_id" jdbcType="INTEGER" property="shopId" />
+    <result column="idcard_positive_img" jdbcType="VARCHAR" property="idcardPositiveImg" />
+    <result column="idcard_back_img" jdbcType="VARCHAR" property="idcardBackImg" />
+    <result column="business_license" jdbcType="VARCHAR" property="businessLicense" />
+    <result column="idcard_name" jdbcType="VARCHAR" property="idcardName" />
+    <result column="idcard_number" jdbcType="VARCHAR" property="idcardNumber" />
+    <result column="idcard_type" jdbcType="VARCHAR" property="idcardType" />
+    <result column="idcard_validity_end" jdbcType="DATE" property="idcardValidityEnd" />
+    <result column="idcard_validity_start" jdbcType="DATE" property="idcardValidityStart" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, shop_id, idcard_positive_img, idcard_back_img, business_license, idcard_name, 
+    idcard_number, idcard_type, idcard_validity_end, idcard_validity_start
+  </sql>
+  <select id="selectByExample" parameterType="com.macro.mall.portal.model.UmsShopCertificatesInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ums_shop_certificates_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ums_shop_certificates_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ums_shop_certificates_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.macro.mall.portal.model.UmsShopCertificatesInfoExample">
+    delete from ums_shop_certificates_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.macro.mall.portal.model.UmsShopCertificatesInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ums_shop_certificates_info (shop_id, idcard_positive_img, idcard_back_img, 
+      business_license, idcard_name, idcard_number, 
+      idcard_type, idcard_validity_end, idcard_validity_start
+      )
+    values (#{shopId,jdbcType=INTEGER}, #{idcardPositiveImg,jdbcType=VARCHAR}, #{idcardBackImg,jdbcType=VARCHAR}, 
+      #{businessLicense,jdbcType=VARCHAR}, #{idcardName,jdbcType=VARCHAR}, #{idcardNumber,jdbcType=VARCHAR}, 
+      #{idcardType,jdbcType=VARCHAR}, #{idcardValidityEnd,jdbcType=DATE}, #{idcardValidityStart,jdbcType=DATE}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.macro.mall.portal.model.UmsShopCertificatesInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ums_shop_certificates_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="idcardPositiveImg != null">
+        idcard_positive_img,
+      </if>
+      <if test="idcardBackImg != null">
+        idcard_back_img,
+      </if>
+      <if test="businessLicense != null">
+        business_license,
+      </if>
+      <if test="idcardName != null">
+        idcard_name,
+      </if>
+      <if test="idcardNumber != null">
+        idcard_number,
+      </if>
+      <if test="idcardType != null">
+        idcard_type,
+      </if>
+      <if test="idcardValidityEnd != null">
+        idcard_validity_end,
+      </if>
+      <if test="idcardValidityStart != null">
+        idcard_validity_start,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="shopId != null">
+        #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="idcardPositiveImg != null">
+        #{idcardPositiveImg,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardBackImg != null">
+        #{idcardBackImg,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicense != null">
+        #{businessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardName != null">
+        #{idcardName,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardNumber != null">
+        #{idcardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardType != null">
+        #{idcardType,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardValidityEnd != null">
+        #{idcardValidityEnd,jdbcType=DATE},
+      </if>
+      <if test="idcardValidityStart != null">
+        #{idcardValidityStart,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.macro.mall.portal.model.UmsShopCertificatesInfoExample" resultType="java.lang.Integer">
+    select count(*) from ums_shop_certificates_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ums_shop_certificates_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopId != null">
+        shop_id = #{record.shopId,jdbcType=INTEGER},
+      </if>
+      <if test="record.idcardPositiveImg != null">
+        idcard_positive_img = #{record.idcardPositiveImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcardBackImg != null">
+        idcard_back_img = #{record.idcardBackImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessLicense != null">
+        business_license = #{record.businessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcardName != null">
+        idcard_name = #{record.idcardName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcardNumber != null">
+        idcard_number = #{record.idcardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcardType != null">
+        idcard_type = #{record.idcardType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcardValidityEnd != null">
+        idcard_validity_end = #{record.idcardValidityEnd,jdbcType=DATE},
+      </if>
+      <if test="record.idcardValidityStart != null">
+        idcard_validity_start = #{record.idcardValidityStart,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ums_shop_certificates_info
+    set id = #{record.id,jdbcType=INTEGER},
+      shop_id = #{record.shopId,jdbcType=INTEGER},
+      idcard_positive_img = #{record.idcardPositiveImg,jdbcType=VARCHAR},
+      idcard_back_img = #{record.idcardBackImg,jdbcType=VARCHAR},
+      business_license = #{record.businessLicense,jdbcType=VARCHAR},
+      idcard_name = #{record.idcardName,jdbcType=VARCHAR},
+      idcard_number = #{record.idcardNumber,jdbcType=VARCHAR},
+      idcard_type = #{record.idcardType,jdbcType=VARCHAR},
+      idcard_validity_end = #{record.idcardValidityEnd,jdbcType=DATE},
+      idcard_validity_start = #{record.idcardValidityStart,jdbcType=DATE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.portal.model.UmsShopCertificatesInfo">
+    update ums_shop_certificates_info
+    <set>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=INTEGER},
+      </if>
+      <if test="idcardPositiveImg != null">
+        idcard_positive_img = #{idcardPositiveImg,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardBackImg != null">
+        idcard_back_img = #{idcardBackImg,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicense != null">
+        business_license = #{businessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardName != null">
+        idcard_name = #{idcardName,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardNumber != null">
+        idcard_number = #{idcardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardType != null">
+        idcard_type = #{idcardType,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardValidityEnd != null">
+        idcard_validity_end = #{idcardValidityEnd,jdbcType=DATE},
+      </if>
+      <if test="idcardValidityStart != null">
+        idcard_validity_start = #{idcardValidityStart,jdbcType=DATE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.macro.mall.portal.model.UmsShopCertificatesInfo">
+    update ums_shop_certificates_info
+    set shop_id = #{shopId,jdbcType=INTEGER},
+      idcard_positive_img = #{idcardPositiveImg,jdbcType=VARCHAR},
+      idcard_back_img = #{idcardBackImg,jdbcType=VARCHAR},
+      business_license = #{businessLicense,jdbcType=VARCHAR},
+      idcard_name = #{idcardName,jdbcType=VARCHAR},
+      idcard_number = #{idcardNumber,jdbcType=VARCHAR},
+      idcard_type = #{idcardType,jdbcType=VARCHAR},
+      idcard_validity_end = #{idcardValidityEnd,jdbcType=DATE},
+      idcard_validity_start = #{idcardValidityStart,jdbcType=DATE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

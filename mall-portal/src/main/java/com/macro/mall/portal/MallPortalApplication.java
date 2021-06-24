@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@MapperScan({"com.macro.mall.mapper","com.macro.mall.portal.dao"})
+@MapperScan({"com.macro.mall.mapper","com.macro.mall.portal.dao","com.macro.mall.portal.component"})
 @EnableScheduling
 public class MallPortalApplication {
 

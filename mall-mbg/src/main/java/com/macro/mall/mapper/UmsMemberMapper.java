@@ -2,8 +2,10 @@ package com.macro.mall.mapper;
 
 import com.macro.mall.model.UmsMember;
 import com.macro.mall.model.UmsMemberExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 public interface UmsMemberMapper {
     int countByExample(UmsMemberExample example);
@@ -27,4 +29,7 @@ public interface UmsMemberMapper {
     int updateByPrimaryKeySelective(UmsMember record);
 
     int updateByPrimaryKey(UmsMember record);
+
+    @Select("SELECT *  FROM ums_member WHERE PHONE = #{telephone}  AND  STATUS = 1 ")
+    UmsMember selectByPhone(@Param("telephone") String telephone);
 }

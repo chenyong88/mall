@@ -453,7 +453,22 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+    <select id="selectByMemberIdAndShopIdSumByStatus" resultType="com.macro.mall.dto.OrderStatisticsDto">
+      SELECT
+        COUNT(order_sn) AS   totalOrder,
+        SUM(CASE  WHEN `status`   = 0  THEN 1 ELSE 0  END)  AS toBePaidQuantity,
+        SUM(CASE  WHEN `status`   = 1  THEN 1 ELSE 0  END)  AS toBeDeliveredQuantity,
+        SUM(CASE  WHEN `status`   = 2  THEN 1 ELSE 0  END)  AS toBeDistributionQuantity,
+        SUM(CASE  WHEN `status`   = 3  THEN 1 ELSE 0  END)  AS inDeliveryQuantity,
+        SUM(CASE  WHEN `status`   = 4  THEN 1 ELSE 0  END)  AS completedQuantity,
+        SUM(CASE  WHEN `status`   = 5  THEN 1 ELSE 0  END)  AS closeQuantity,
+        SUM(CASE  WHEN `status`   = 6  THEN 1 ELSE 0  END)  AS invalidQuantity
+      from oms_order
+      WHERE member_id = #{memberId,jdbcType=BIGINT}
+        and shop_id = #{shopId,jdbcType=BIGINT}
+
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
     update oms_order
     <set>
       <if test="record.id != null">

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.portal.dao.UmsShopBaseinfoMapper">
+  <resultMap id="BaseResultMap" type="com.macro.mall.portal.model.UmsShopBaseinfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="member_id" jdbcType="INTEGER" property="memberId" />
+    <result column="shop_name" jdbcType="VARCHAR" property="shopName" />
+    <result column="shop_type" jdbcType="SMALLINT" property="shopType" />
+    <result column="shop_address" jdbcType="VARCHAR" property="shopAddress" />
+    <result column="shop_leading_coder" jdbcType="VARCHAR" property="shopLeadingCoder" />
+    <result column="shop_phone" jdbcType="VARCHAR" property="shopPhone" />
+    <result column="shop_business_consultant" jdbcType="VARCHAR" property="shopBusinessConsultant" />
+    <result column="shop_status" jdbcType="INTEGER" property="shopStatus" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, member_id, shop_name, shop_type, shop_address, shop_leading_coder, shop_phone, 
+    shop_business_consultant, shop_status
+  </sql>
+  <select id="selectByExample" parameterType="com.macro.mall.portal.model.UmsShopBaseinfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ums_shop_baseinfo
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ums_shop_baseinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ums_shop_baseinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.macro.mall.portal.model.UmsShopBaseinfoExample">
+    delete from ums_shop_baseinfo
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.macro.mall.portal.model.UmsShopBaseinfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ums_shop_baseinfo (member_id, shop_name, shop_type, 
+      shop_address, shop_leading_coder, shop_phone, 
+      shop_business_consultant, shop_status)
+    values (#{memberId,jdbcType=INTEGER}, #{shopName,jdbcType=VARCHAR}, #{shopType,jdbcType=SMALLINT}, 
+      #{shopAddress,jdbcType=VARCHAR}, #{shopLeadingCoder,jdbcType=VARCHAR}, #{shopPhone,jdbcType=VARCHAR}, 
+      #{shopBusinessConsultant,jdbcType=VARCHAR}, #{shopStatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.macro.mall.portal.model.UmsShopBaseinfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into ums_shop_baseinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="memberId != null">
+        member_id,
+      </if>
+      <if test="shopName != null">
+        shop_name,
+      </if>
+      <if test="shopType != null">
+        shop_type,
+      </if>
+      <if test="shopAddress != null">
+        shop_address,
+      </if>
+      <if test="shopLeadingCoder != null">
+        shop_leading_coder,
+      </if>
+      <if test="shopPhone != null">
+        shop_phone,
+      </if>
+      <if test="shopBusinessConsultant != null">
+        shop_business_consultant,
+      </if>
+      <if test="shopStatus != null">
+        shop_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="memberId != null">
+        #{memberId,jdbcType=INTEGER},
+      </if>
+      <if test="shopName != null">
+        #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopType != null">
+        #{shopType,jdbcType=SMALLINT},
+      </if>
+      <if test="shopAddress != null">
+        #{shopAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="shopLeadingCoder != null">
+        #{shopLeadingCoder,jdbcType=VARCHAR},
+      </if>
+      <if test="shopPhone != null">
+        #{shopPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="shopBusinessConsultant != null">
+        #{shopBusinessConsultant,jdbcType=VARCHAR},
+      </if>
+      <if test="shopStatus != null">
+        #{shopStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.macro.mall.portal.model.UmsShopBaseinfoExample" resultType="java.lang.Integer">
+    select count(*) from ums_shop_baseinfo
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ums_shop_baseinfo
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.memberId != null">
+        member_id = #{record.memberId,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopName != null">
+        shop_name = #{record.shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopType != null">
+        shop_type = #{record.shopType,jdbcType=SMALLINT},
+      </if>
+      <if test="record.shopAddress != null">
+        shop_address = #{record.shopAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopLeadingCoder != null">
+        shop_leading_coder = #{record.shopLeadingCoder,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopPhone != null">
+        shop_phone = #{record.shopPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopBusinessConsultant != null">
+        shop_business_consultant = #{record.shopBusinessConsultant,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopStatus != null">
+        shop_status = #{record.shopStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ums_shop_baseinfo
+    set id = #{record.id,jdbcType=INTEGER},
+      member_id = #{record.memberId,jdbcType=INTEGER},
+      shop_name = #{record.shopName,jdbcType=VARCHAR},
+      shop_type = #{record.shopType,jdbcType=SMALLINT},
+      shop_address = #{record.shopAddress,jdbcType=VARCHAR},
+      shop_leading_coder = #{record.shopLeadingCoder,jdbcType=VARCHAR},
+      shop_phone = #{record.shopPhone,jdbcType=VARCHAR},
+      shop_business_consultant = #{record.shopBusinessConsultant,jdbcType=VARCHAR},
+      shop_status = #{record.shopStatus,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.portal.model.UmsShopBaseinfo">
+    update ums_shop_baseinfo
+    <set>
+      <if test="memberId != null">
+        member_id = #{memberId,jdbcType=INTEGER},
+      </if>
+      <if test="shopName != null">
+        shop_name = #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopType != null">
+        shop_type = #{shopType,jdbcType=SMALLINT},
+      </if>
+      <if test="shopAddress != null">
+        shop_address = #{shopAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="shopLeadingCoder != null">
+        shop_leading_coder = #{shopLeadingCoder,jdbcType=VARCHAR},
+      </if>
+      <if test="shopPhone != null">
+        shop_phone = #{shopPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="shopBusinessConsultant != null">
+        shop_business_consultant = #{shopBusinessConsultant,jdbcType=VARCHAR},
+      </if>
+      <if test="shopStatus != null">
+        shop_status = #{shopStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.macro.mall.portal.model.UmsShopBaseinfo">
+    update ums_shop_baseinfo
+    set member_id = #{memberId,jdbcType=INTEGER},
+      shop_name = #{shopName,jdbcType=VARCHAR},
+      shop_type = #{shopType,jdbcType=SMALLINT},
+      shop_address = #{shopAddress,jdbcType=VARCHAR},
+      shop_leading_coder = #{shopLeadingCoder,jdbcType=VARCHAR},
+      shop_phone = #{shopPhone,jdbcType=VARCHAR},
+      shop_business_consultant = #{shopBusinessConsultant,jdbcType=VARCHAR},
+      shop_status = #{shopStatus,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

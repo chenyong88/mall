@@ -2,7 +2,6 @@ package com.macro.mall.controller;
 
 import com.macro.mall.dto.CommonResult;
 import com.macro.mall.dto.SmsCouponParam;
-import com.macro.mall.model.SmsCoupon;
 import com.macro.mall.service.SmsCouponService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
